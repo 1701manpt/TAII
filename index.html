@@ -1,22 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        html body {
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .main {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+        }
+
+        .iframe {
+            height: 95%;
+            width: 100%;
+        }
+
+        .iframe iframe {
+            height: 100%;
+            width: 100%;
+        }
+
+        .controller {
+            display: flex;
+            height: 5%;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .controller__next,
+        .controller__prev {
+            color: white;
+            background-color: black;
+        }
+
+        .controller__prev--active {}
+    </style>
 
     <div class="main">
+        <div class="iframe">
+            <iframe
+                src="https://ebooks.helbling-ezone.com/ebook/books/jetstream-american-pre-intermediate-sb-split-b-ebook-2020-9Og9Rk81LVP81eMhH1qJgGnUbB2S105D/pages/svg/1.svg"
+                frameborder="0">
+            </iframe>
+        </div>
+        <div class="controller">
+            <div class="controller__prev">&#8656;</div>
+            <div class="controller__next">&#8658;</div>
+        </div>
     </div>
 
     <script>
-        // for(var i = 1; i < 79; i++) {
-            document.querySelector('.main').innerHTML = `
-                <iframe src="https://ebooks.helbling-ezone.com/ebook/books/jetstream-american-pre-intermediate-sb-split-b-ebook-2020-9Og9Rk81LVP81eMhH1qJgGnUbB2S105D/pages/svg/10.svg" frameborder="0" width="500px" height="500px"></iframe>
-            `
-        // }
+        (function () {
+            var controller = function () {
+                var controllerPrev = document.querySelector('.controller__prev')
+                var controllerNext = document.querySelector('.controller__next')
+                var main = document.querySelector('.main')
+                var iframe = document.querySelector('.iframe')
+
+                function getIndex() {
+                    var i = iframe.querySelector('iframe')
+                    var src = i.getAttribute('src')
+                    var index = 1
+                    if (src.length == 152) {
+                        index = src.slice(147, 148)
+                    }
+                    if (src.length == 153) {
+                        index = src.slice(147, 149)
+                    }
+                    return Number(index)
+                }
+                controllerNext.onclick = function () {
+                    var index = getIndex() + 1
+                    iframe.innerHTML = `
+                    <iframe
+                        src="https://ebooks.helbling-ezone.com/ebook/books/jetstream-american-pre-intermediate-sb-split-b-ebook-2020-9Og9Rk81LVP81eMhH1qJgGnUbB2S105D/pages/svg/${index}.svg"
+                        frameborder="0">
+                    </iframe>
+                    `
+                }
+                controllerPrev.onclick = function () {
+                    var index = getIndex() - 1
+                    iframe.innerHTML = `
+                    <iframe
+                        src="https://ebooks.helbling-ezone.com/ebook/books/jetstream-american-pre-intermediate-sb-split-b-ebook-2020-9Og9Rk81LVP81eMhH1qJgGnUbB2S105D/pages/svg/${index}.svg"
+                        frameborder="0">
+                    </iframe>
+                    `                }
+            }
+
+            controller()
+        })()
     </script>
 </body>
+
 </html>
