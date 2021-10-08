@@ -5,98 +5,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TIẾNG ANH II</title>
+    <title>SÁCH TIẾNG ANH II</title>
+    <link rel="stylesheet" href="http://nghiquan.shop/nghiquan/reset.css">
+    <link rel="stylesheet" href="/../TAII/css.css">
 </head>
 
 <body>
-    <style>
-        * {
-            margin: 0px;
-            padding: 0px;
-            box-sizing: border-box;
-            text-decoration: none;
-            font-size: unset;
-        }
-
-        html body {
-            height: 100vh;
-            width: 100vw;
-        }
-
-        .header {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .header__page {
-            display: none;
-            border: 1px solid black;
-            border-radius: 6px;
-        }
-
-        .main {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            width: 100%;
-        }
-
-        .iframe {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 95%;
-            width: 100%;
-        }
-
-        .iframe__data--find {
-            height: 100%;
-            width: 100%;
-        }
-
-        .iframe__data--not-find {
-            color: white;
-        }
-
-        .controller {
-            display: flex;
-            height: 5%;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .controller__next {
-            text-align: center;
-            width: 5em;
-            color: black;
-            border: 1px solid black;
-            border-radius: 0px 6px 6px 0px;
-        }
-
-        .controller__next:active,
-        .controller__prev:active {
-            background-color: black;
-            color: white;
-        }
-
-        .controller__prev {
-            text-align: center;
-            width: 5em;
-            color: black;
-            border: 1px solid black;
-            border-radius: 6px 0px 0px 6px;
-        }
-
-        .controller__prev--active {}
-
-        .controller__search__input {
-            text-align: center;
-            border: 1px black solid;
-            padding: 1px;
-        }
-    </style>
-
     <div class="main">
         <div class="header">
             <div class="header__page">1</div>
@@ -110,7 +24,7 @@
         <div class="controller">
             <div class="controller__prev">&#8656;</div>
             <div class="controller__search">
-                <input type="number" class="controller__search__input" placeholder="Nhập số trang (1-79)" value="1">
+                <input type="number" class="controller__search__input" value="1">
             </div>
             <div class="controller__next">&#8658;</div>
         </div>
@@ -174,7 +88,7 @@
                         return
                     }
                     if (index < 1 || index > 79) {
-                        alert('Not Find Page: '+index+'!\n Tài liệu có trang bắt đầu từ 1 đến 79')
+                        alert('Not Find Page: ' + index + '!\n Tài liệu có trang bắt đầu từ 1 đến 79')
                         controllerSearch.value = page.textContent
                         return
                     }
