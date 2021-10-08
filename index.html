@@ -20,6 +20,13 @@
             width: 100vw;
         }
 
+        .header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        }
+
         .main {
             display: flex;
             flex-direction: column;
@@ -54,6 +61,9 @@
     </style>
 
     <div class="main">
+        <div class="header">
+
+        </div>
         <div class="iframe">
             <iframe
                 src="https://ebooks.helbling-ezone.com/ebook/books/jetstream-american-pre-intermediate-sb-split-b-ebook-2020-9Og9Rk81LVP81eMhH1qJgGnUbB2S105D/pages/svg/1.svg"
@@ -63,7 +73,7 @@
         <div class="controller">
             <div class="controller__prev">&#8656;</div>
             <div class="controller__search">
-                <input type="search" placeholder="Nhập số trang (1-79)" value="1">
+                <input type="search" placeholder="Nhập số trang (1-79)">
             </div>
             <div class="controller__next">&#8658;</div>
         </div>
@@ -72,6 +82,7 @@
     <script>
         (function () {
             var controller = function () {
+                var header = document.querySelector('.header')
                 var controllerPrev = document.querySelector('.controller__prev')
                 var controllerNext = document.querySelector('.controller__next')
                 var controllerSearch = document.querySelector('.controller__search input')
@@ -91,6 +102,7 @@
 
                     return Number(index)
                 }
+                renderIframe(1)
                 controllerNext.onclick = function () {
                     if (getIndex() == 79) {
                         return
@@ -99,7 +111,7 @@
                     renderIframe(index)
                 }
                 controllerPrev.onclick = function () {
-                    if(getIndex() == 1) {
+                    if (getIndex() == 1) {
                         return
                     }
                     var index = getIndex() - 1
@@ -125,7 +137,7 @@
                         frameborder="0">
                     </iframe>
                     `
-                    controllerSearch.value = getIndex()
+                    header.innerHTML = index
                 }
             }
 
