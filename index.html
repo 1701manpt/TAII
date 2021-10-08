@@ -7,66 +7,101 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<style>
-    * {
-        margin: 0px;
-        padding: 0px;
-        font-size: 1.2;
-    }
-
-    html body {
-        height: 100vh;
-        width: 100vw;
-    }
-
-    .header {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-    }
-
-    .main {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        width: 100%;
-    }
-
-    .iframe {
-        height: 95%;
-        width: 100%;
-    }
-
-    .iframe iframe {
-        height: 100%;
-        width: 100%;
-    }
-
-    .controller {
-        display: flex;
-        height: 5%;
-        justify-content: space-evenly;
-        align-items: center;
-    }
-
-    .controller__next,
-    .controller__prev {
-        color: white;
-        background-color: black;
-    }
-
-    .controller__prev--active {}
-</style>
 
 <body>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+            text-decoration: none;
+        }
+
+        html body {
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .header__page {
+            display: none;
+            border: 1px solid black;
+            border-radius: 6px;
+        }
+
+        .main {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+        }
+
+        .iframe {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 95%;
+            width: 100%;
+        }
+
+        .iframe__data--find {
+            height: 100%;
+            width: 100%;
+        }
+
+        .iframe__data--not-find {
+            color: white;
+        }
+
+        .controller {
+            display: flex;
+            height: 5%;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .controller__next {
+            text-align: center;
+            width: 5em;
+            color: black;
+            border: 1px solid black;
+            border-radius: 0px 6px 6px 0px;
+        }
+
+        .controller__next:active,
+        .controller__prev:active {
+            background-color: black;
+            color: white;
+        }
+
+        .controller__prev {
+            text-align: center;
+            width: 5em;
+            color: black;
+            border: 1px solid black;
+            border-radius: 6px 0px 0px 6px;
+        }
+
+        .controller__prev--active {}
+
+        .controller__search__input {
+            text-align: center;
+            border: 1px black solid;
+            padding: 1px;
+        }
+    </style>
 
     <div class="main">
         <div class="header">
-
+            <div class="header__page">1</div>
         </div>
         <div class="iframe">
-            <iframe
+            <iframe class="iframe__data--find"
                 src="https://ebooks.helbling-ezone.com/ebook/books/jetstream-american-pre-intermediate-sb-split-b-ebook-2020-9Og9Rk81LVP81eMhH1qJgGnUbB2S105D/pages/svg/1.svg"
                 frameborder="0">
             </iframe>
@@ -74,76 +109,98 @@
         <div class="controller">
             <div class="controller__prev">&#8656;</div>
             <div class="controller__search">
-                <input type="search" placeholder="Nhập số trang (1-79)">
+                <input type="number" class="controller__search__input" placeholder="Nhập số trang (1-79)" value="1">
             </div>
             <div class="controller__next">&#8658;</div>
         </div>
     </div>
+
+    <script>
+        (function () {
+            var controller = function () {
+                var start = 1
+                var end = 79
+                var page = document.querySelector('.header__page')
+                var controllerPrev = document.querySelector('.controller__prev')
+                var controllerNext = document.querySelector('.controller__next')
+                var controllerSearch = document.querySelector('.controller__search__input')
+                var main = document.querySelector('.main')
+                var iframe = document.querySelector('.iframe')
+                var not = document.querySelectorAll(':not(.controller__search, .controller__search__input)')
+                function getIndex() {
+                    var i = iframe.querySelector('iframe')
+                    var src = i.getAttribute('src')
+                    var index = 1
+                    if (src.length == 152) {
+                        index = src.slice(147, 148)
+                    }
+                    if (src.length == 153) {
+                        index = src.slice(147, 149)
+                    }
+
+                    return Number(index)
+                }
+
+                controllerNext.onclick = function () {
+                    if (getIndex() == end) {
+                        return
+                    }
+                    var index = getIndex() + 1
+                    renderIframe(index)
+                }
+                controllerPrev.onclick = function () {
+                    if (getIndex() == start) {
+                        return
+                    }
+                    var index = getIndex() - 1
+                    renderIframe(index)
+                }
+                controllerSearch.addEventListener('click', function () {
+                    var index = controllerSearch.value
+                    renderIframe(index)
+                })
+                controllerSearch.addEventListener('change', function () {
+                    var index = controllerSearch.value
+                    renderIframe(index)
+                })
+                controllerSearch.addEventListener('input', function () {
+                    var index = controllerSearch.value
+                    renderIframe(index)
+                })
+
+                function renderIframe(index) {
+                    if (index == '' || index == getIndex()) {
+                        return
+                    }
+                    if (index < 1 || index > 79) {
+                        alert('Not Find Page: '+index+'!\n Tài liệu có trang bắt đầu từ 1 đến 79')
+                        controllerSearch.value = page.textContent
+                        return
+                    }
+                    iframe.innerHTML = `
+                    <iframe
+                        class="iframe__data--find"
+                        src="https://ebooks.helbling-ezone.com/ebook/books/jetstream-american-pre-intermediate-sb-split-b-ebook-2020-9Og9Rk81LVP81eMhH1qJgGnUbB2S105D/pages/svg/${index}.svg"
+                        frameborder="0">
+                    </iframe>
+                    `
+                    page.innerHTML = index
+                }
+
+                not.forEach(function (item) {
+                    this.onclick = function () {
+                        clickNot()
+                    }
+                })
+
+                function clickNot() {
+                    controllerSearch.value = page.textContent
+                }
+            }
+
+            controller()
+        })()
+    </script>
 </body>
-<script>
-    (function () {
-        var controller = function () {
-            var header = document.querySelector('.header')
-            var controllerPrev = document.querySelector('.controller__prev')
-            var controllerNext = document.querySelector('.controller__next')
-            var controllerSearch = document.querySelector('.controller__search input')
-            var main = document.querySelector('.main')
-            var iframe = document.querySelector('.iframe')
-
-            function getIndex() {
-                var i = iframe.querySelector('iframe')
-                var src = i.getAttribute('src')
-                var index = 1
-                if (src.length == 152) {
-                    index = src.slice(147, 148)
-                }
-                if (src.length == 153) {
-                    index = src.slice(147, 149)
-                }
-
-                return Number(index)
-            }
-            renderIframe(1)
-            controllerNext.onclick = function () {
-                if (getIndex() == 79) {
-                    return
-                }
-                var index = getIndex() + 1
-                renderIframe(index)
-            }
-            controllerPrev.onclick = function () {
-                if (getIndex() == 1) {
-                    return
-                }
-                var index = getIndex() - 1
-                renderIframe(index)
-            }
-            controllerSearch.addEventListener('click', function () {
-                var index = controllerSearch.value
-                renderIframe(index)
-            })
-            controllerSearch.addEventListener('change', function () {
-                var index = controllerSearch.value
-                renderIframe(index)
-            })
-            controllerSearch.addEventListener('input', function () {
-                var index = controllerSearch.value
-                renderIframe(index)
-            })
-
-            function renderIframe(index) {
-                iframe.innerHTML = `
-                <iframe
-                    src="https://ebooks.helbling-ezone.com/ebook/books/jetstream-american-pre-intermediate-sb-split-b-ebook-2020-9Og9Rk81LVP81eMhH1qJgGnUbB2S105D/pages/svg/${index}.svg"
-                    frameborder="0">
-                </iframe>
-                `
-                header.innerHTML = index
-            }
-        }
-
-        controller()
-    })()
-</script>
 
 </html>
