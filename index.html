@@ -7,59 +7,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+<style>
+    * {
+        margin: 0px;
+        padding: 0px;
+        font-size: 1.2;
+    }
+
+    html body {
+        height: 100vh;
+        width: 100vw;
+    }
+
+    .header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+    }
+
+    .main {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        width: 100%;
+    }
+
+    .iframe {
+        height: 95%;
+        width: 100%;
+    }
+
+    .iframe iframe {
+        height: 100%;
+        width: 100%;
+    }
+
+    .controller {
+        display: flex;
+        height: 5%;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+
+    .controller__next,
+    .controller__prev {
+        color: white;
+        background-color: black;
+    }
+
+    .controller__prev--active {}
+</style>
 
 <body>
-    <style>
-        * {
-            margin: 0px;
-            padding: 0px;
-            font-size: 1.2;
-        }
-
-        html body {
-            height: 100vh;
-            width: 100vw;
-        }
-
-        .header {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-        }
-
-        .main {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            width: 100%;
-        }
-
-        .iframe {
-            height: 95%;
-            width: 100%;
-        }
-
-        .iframe iframe {
-            height: 100%;
-            width: 100%;
-        }
-
-        .controller {
-            display: flex;
-            height: 5%;
-            justify-content: space-evenly;
-            align-items: center;
-        }
-
-        .controller__next,
-        .controller__prev {
-            color: white;
-            background-color: black;
-        }
-
-        .controller__prev--active {}
-    </style>
 
     <div class="main">
         <div class="header">
@@ -79,72 +79,71 @@
             <div class="controller__next">&#8658;</div>
         </div>
     </div>
-
-    <script>
-        (function () {
-            var controller = function () {
-                var header = document.querySelector('.header')
-                var controllerPrev = document.querySelector('.controller__prev')
-                var controllerNext = document.querySelector('.controller__next')
-                var controllerSearch = document.querySelector('.controller__search input')
-                var main = document.querySelector('.main')
-                var iframe = document.querySelector('.iframe')
-
-                function getIndex() {
-                    var i = iframe.querySelector('iframe')
-                    var src = i.getAttribute('src')
-                    var index = 1
-                    if (src.length == 152) {
-                        index = src.slice(147, 148)
-                    }
-                    if (src.length == 153) {
-                        index = src.slice(147, 149)
-                    }
-
-                    return Number(index)
-                }
-                renderIframe(1)
-                controllerNext.onclick = function () {
-                    if (getIndex() == 79) {
-                        return
-                    }
-                    var index = getIndex() + 1
-                    renderIframe(index)
-                }
-                controllerPrev.onclick = function () {
-                    if (getIndex() == 1) {
-                        return
-                    }
-                    var index = getIndex() - 1
-                    renderIframe(index)
-                }
-                controllerSearch.addEventListener('click', function () {
-                    var index = controllerSearch.value
-                    renderIframe(index)
-                })
-                controllerSearch.addEventListener('change', function () {
-                    var index = controllerSearch.value
-                    renderIframe(index)
-                })
-                controllerSearch.addEventListener('input', function () {
-                    var index = controllerSearch.value
-                    renderIframe(index)
-                })
-
-                function renderIframe(index) {
-                    iframe.innerHTML = `
-                    <iframe
-                        src="https://ebooks.helbling-ezone.com/ebook/books/jetstream-american-pre-intermediate-sb-split-b-ebook-2020-9Og9Rk81LVP81eMhH1qJgGnUbB2S105D/pages/svg/${index}.svg"
-                        frameborder="0">
-                    </iframe>
-                    `
-                    header.innerHTML = index
-                }
-            }
-
-            controller()
-        })()
-    </script>
 </body>
+<script>
+    (function () {
+        var controller = function () {
+            var header = document.querySelector('.header')
+            var controllerPrev = document.querySelector('.controller__prev')
+            var controllerNext = document.querySelector('.controller__next')
+            var controllerSearch = document.querySelector('.controller__search input')
+            var main = document.querySelector('.main')
+            var iframe = document.querySelector('.iframe')
+
+            function getIndex() {
+                var i = iframe.querySelector('iframe')
+                var src = i.getAttribute('src')
+                var index = 1
+                if (src.length == 152) {
+                    index = src.slice(147, 148)
+                }
+                if (src.length == 153) {
+                    index = src.slice(147, 149)
+                }
+
+                return Number(index)
+            }
+            renderIframe(1)
+            controllerNext.onclick = function () {
+                if (getIndex() == 79) {
+                    return
+                }
+                var index = getIndex() + 1
+                renderIframe(index)
+            }
+            controllerPrev.onclick = function () {
+                if (getIndex() == 1) {
+                    return
+                }
+                var index = getIndex() - 1
+                renderIframe(index)
+            }
+            controllerSearch.addEventListener('click', function () {
+                var index = controllerSearch.value
+                renderIframe(index)
+            })
+            controllerSearch.addEventListener('change', function () {
+                var index = controllerSearch.value
+                renderIframe(index)
+            })
+            controllerSearch.addEventListener('input', function () {
+                var index = controllerSearch.value
+                renderIframe(index)
+            })
+
+            function renderIframe(index) {
+                iframe.innerHTML = `
+                <iframe
+                    src="https://ebooks.helbling-ezone.com/ebook/books/jetstream-american-pre-intermediate-sb-split-b-ebook-2020-9Og9Rk81LVP81eMhH1qJgGnUbB2S105D/pages/svg/${index}.svg"
+                    frameborder="0">
+                </iframe>
+                `
+                header.innerHTML = index
+            }
+        }
+
+        controller()
+    })()
+</script>
 
 </html>
