@@ -74,7 +74,7 @@
         <div class="controller">
             <div class="controller__prev">&#8656;</div>
             <div class="controller__search">
-                <input type="search" placeholder="Nhập số trang (1-79)">
+                <input type="search" placeholder="Nhập số trang (1-42)">
             </div>
             <div class="controller__next">&#8658;</div>
         </div>
@@ -105,7 +105,7 @@
                 }
                 renderIframe(1)
                 controllerNext.onclick = function () {
-                    if (getIndex() == 79) {
+                    if (getIndex() == 42) {
                         return
                     }
                     var index = getIndex() + 1
